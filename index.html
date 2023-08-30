@@ -692,6 +692,8 @@ function removeActiveFromAll(elements) {
                     body: formData,
 		    mode: 'no-cors',
                 });
+	    	console.log("RECEIV");		    
+	    	console.log(response);		    
 
                 if (response.ok) {
                     const responseData = await response.json();
