@@ -691,19 +691,17 @@ function removeActiveFromAll(elements) {
                     method: 'POST',
                     body: formData,
                 });
-		console.log("RECEIEVE")
-                console.log(response);
 
                 if (response.ok) {
                     const responseData = await response.json();
                     loading.style.background = "transparent";
                     spinner.style.display = "none";
                     loadingTitle.style.display = "none";
-                    finalResult.src = responseData.response["imageUrl"];
+                    finalResult.src = responseData;
                     download.style.display = "flex";
                     close.style.display = "block";
 
-                    const imgResponse = await fetch(responseData.response["imageUrl"]);
+                    const imgResponse = await fetch(responseData);
                     const blob = await imgResponse.blob();
                     const url = window.URL.createObjectURL(blob);
                     download.href = url;
