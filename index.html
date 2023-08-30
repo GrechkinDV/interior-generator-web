@@ -686,10 +686,12 @@ function removeActiveFromAll(elements) {
             }, 50);
 
             try {
+	    	console.log("SEND")
                 const response = await fetch('https://interior-slon.ru/upload/', {
                     method: 'POST',
                     body: formData,
                 });
+		console.log("RECEIEVE")
                 console.log(response);
 
                 if (response.ok) {
