@@ -699,11 +699,11 @@ function removeActiveFromAll(elements) {
                     loading.style.background = "transparent";
                     spinner.style.display = "none";
                     loadingTitle.style.display = "none";
-                    finalResult.src = responseData;
+                    finalResult.src = responseData['imageUrl'];
                     download.style.display = "flex";
                     close.style.display = "block";
 
-                    const imgResponse = await fetch(responseData);
+                    const imgResponse = await fetch(responseData['imageUrl']);
                     const blob = await imgResponse.blob();
                     const url = window.URL.createObjectURL(blob);
                     download.href = url;
