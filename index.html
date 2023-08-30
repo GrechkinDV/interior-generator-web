@@ -689,10 +689,9 @@ function removeActiveFromAll(elements) {
                 const response = await fetch('https://interior-slon.ru/upload/', {
                     method: 'POST',
                     body: formData,
-                    // mode: 'cors',
+                    mode: 'cors',
                     headers: {
-                        'Access-Control-Allow-Origin': '*', // Replace with your actual domain
-                        'Access-Control-Allow-Credentials': 'true', // If needed
+                        'Access-Control-Allow-Origin': 'grechkindv.github.io', // Replace with your actual domain
                     },
                 });
                 console.log(response);
