@@ -590,6 +590,25 @@ const styles = document.getElementsByClassName("style");
 const furnitures = document.getElementsByClassName("facade_form");
 const furnituresWrapper = document.getElementById("facade_forms");
 
+function makeid(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result + ".jpg";
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
 function removeActiveFromAll(elements) {
     for (let el of elements) {
         el.classList.remove('active')
@@ -664,7 +683,7 @@ function removeActiveFromAll(elements) {
         facade_form = room == "kitchen" ? facade_form: ""
 
         const formData = new FormData();
-        formData.append('image', fileUpload.files[0]);
+        formData.append('image', fileUpload.files[0], makeid(getRandomInt(1, 10) + getRandomInt(1, 50)));
         formData.append('generation_type', generation);
         formData.append('room_type', room);
         formData.append('style', style);
