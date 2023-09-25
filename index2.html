@@ -1,0 +1,844 @@
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css);
+ @import url('https://fonts.googleapis.com/css?family=Roboto');
+ :root {
+  --radius: 50%;
+  --size: 2em;
+  --offset: 25px;
+  --background: #f5f5f7;
+}
+
+ html, body, * {
+	 box-sizing: border-box;
+	 font-size: 16px;
+     font-family: 'Gilroy',Arial,sans-serif;
+}
+ html, body {
+	 height: 100%;
+	 text-align: center;
+}
+ body {
+	 background: #f8f8f8;
+     margin: 0;
+}
+
+#modal {
+    display: none;
+    opacity: 0;
+    /* display: flex;
+    opacity: 1; */
+    transition: all 0.5s ease;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 100;
+}
+
+.spinner h3 {
+	position: relative;
+    margin: 0;
+    width: 40px;
+    height: 40px;
+}
+
+
+.spinner h3:after {
+    left: 0;
+	content: "";
+	box-sizing: border-box;
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: 4px solid #b1b1b2;
+	border-top-color: #323e48;
+	-webkit-animation: spinner 1s linear infinite;
+	animation: spinner 1s linear infinite;
+}
+
+@-webkit-keyframes spinner {
+	to {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes spinner {
+	to {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+/* from MDN - https://developer.mozilla.org/ */
+.visually-hidden {
+	clip: rect(1px, 1px, 1px, 1px) !important;
+	border: 0 !important;
+	-webkit-clip-path: inset(50%) !important;
+	clip-path: inset(50%) !important;
+	height: 1px !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	padding: 0 !important;
+	position: absolute !important;
+	white-space: nowrap !important;
+	width: 1px !important;
+}
+
+#loading {
+    max-width: 80vw;
+    max-height: 80vh;
+    flex-direction: column;
+    gap: 30px;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+
+#final-result {
+    max-width: inherit;
+    max-height: inherit;
+    width: inherit;
+}
+
+ h2 {
+	 font-family: "Roboto", sans-serif;
+	 font-size: 26px;
+	 line-height: 1;
+	 color: #008a47;
+	 margin-bottom: 0;
+}
+#animation-text {
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    line-height: 1.3;
+    color: #5f6982;   
+}
+ p {
+	 font-family: "Roboto", sans-serif;
+	 font-size: 18px;
+	 color: #5f6982;
+}
+ .uploader {
+    max-height: 100%;
+    padding: 2rem;
+	 display: flex;
+	 clear: both;
+	 margin: 0 auto;
+	 width: 100%;
+     gap: 60px;
+}
+ .uploader label {
+    height: auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    float: left;
+    clear: both;
+    flex: 1;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    background: #fff;
+    border-radius: 7px;
+    border: 3px solid #eee;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+ .uploader label:hover {
+	 border-color: #008a47;
+}
+ .uploader label.hover {
+	 border: 3px solid #008a47;
+	 box-shadow: inset 0 0 0 6px #eee;
+}
+ .uploader label.hover #start i.fa {
+	 transform: scale(0.8);
+	 opacity: 0.3;
+}
+ .uploader #start {
+	 float: left;
+	 clear: both;
+	 width: 100%;
+}
+ .uploader #start.hidden {
+	 display: none;
+}
+ .uploader #start i.fa {
+	 font-size: 50px;
+	 margin-bottom: 1rem;
+	 transition: all 0.2s ease-in-out;
+}
+ .uploader #response {
+	 float: left;
+	 clear: both;
+	 width: 100%;
+}
+ .uploader #response.hidden {
+	 display: none;
+}
+ .uploader #response #messages {
+	 margin-bottom: 0.5rem;
+}
+ .uploader #file-image {
+    max-height: 100%;
+    display: inline;
+    margin: 0 auto 0.5rem auto;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+}
+ .uploader #file-image.hidden {
+	 display: none;
+}
+ .uploader #notimage {
+    color: red;
+	 display: block;
+	 float: left;
+	 clear: both;
+	 width: 100%;
+}
+
+#error-title {
+    color: red;
+    display: none;
+}
+ .uploader #notimage.hidden {
+	 display: none;
+}
+ .uploader progress, .uploader .progress {
+	 display: inline;
+	 clear: both;
+	 margin: 0 auto;
+	 width: 100%;
+	 max-width: 180px;
+	 height: 8px;
+	 border: 0;
+	 border-radius: 4px;
+	 background-color: #eee;
+	 overflow: hidden;
+}
+ .uploader .progress[value]::-webkit-progress-bar {
+	 border-radius: 4px;
+	 background-color: #eee;
+}
+ .uploader .progress[value]::-webkit-progress-value {
+	 background: linear-gradient(to right, #393f90 0%, #008a47 50%);
+	 border-radius: 4px;
+}
+ .uploader .progress[value]::-moz-progress-bar {
+	 background: linear-gradient(to right, #393f90 0%, #008a47 50%);
+	 border-radius: 4px;
+}
+ .uploader input[type="file"] {
+	 display: none;
+}
+ .uploader div {
+	 color: #5f6982;
+     margin-bottom: 10px;
+}
+ .uploader .btn {
+	 display: inline-block;
+	 margin: 0.5rem 0.5rem 1rem 0.5rem;
+	 clear: both;
+	 font-family: inherit;
+	 font-weight: 700;
+	 font-size: 14px;
+	 text-decoration: none;
+	 text-transform: initial;
+	 border: none;
+	 border-radius: 0.2rem;
+	 outline: none;
+	 padding: 0 1rem;
+	 height: 36px;
+	 line-height: 36px;
+	 color: #fff;
+	 transition: all 0.2s ease-in-out;
+	 box-sizing: border-box;
+	 background: #008a47;
+	 border-color: #008a47;
+	 cursor: pointer;
+}
+
+#options-wrapper {
+    flex: 1;
+}
+
+.options h3 {
+    width: 100%;
+    display: block;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.option {
+    user-select: none;
+    background: #fff;
+    border-radius: 7px;
+    border: 3px solid #eee;
+    transition: all 0.2s ease;
+    padding: 10px 25px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option:hover {
+    border-color: #008a47;
+}
+
+.active {
+    color: white;
+    background: #008a47;
+}
+
+.row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.options textarea {
+    width: 100%;
+    background: #fff;
+    border-radius: 7px;
+    border: 3px solid #eee;
+    transition: all 0.2s ease;
+    padding: 10px;
+    outline: none !important;
+    resize: vertical;
+}
+
+.options textarea:focus {
+    border-color: #008a47;
+}
+
+#generate {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 7px;
+    border: 3px solid #eee;
+    transition: all 0.2s ease;
+    color: white;
+    background: #008a47;
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+#modal #close {
+    display: none;
+    cursor: pointer;
+}
+
+#modal #download {
+    text-decoration: none;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 15px;
+    right: 90px;
+    display: none;
+    align-items: center;
+}
+
+#modal #download svg {
+    margin: auto;
+    width: 40px;
+    height: 30px;
+    fill: white;
+}
+
+#modal #close::after{
+    content: "\00d7";
+    position: absolute;
+    right: 40px;
+    top: 15px;
+    margin: 0;
+    font-size: 50px;
+    color: white;
+    padding: 0;
+    width: 60px;
+    height: 60px;
+}
+
+@media screen and (max-width: 1000px) {
+    .uploader {
+        flex-direction: column;
+    }
+
+    .uploader #file-image {
+        max-height: 50vh;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <form id="file-upload-form" class="uploader">
+    <input id="file-upload" type="file" name="fileUpload" accept="image/*" />
+
+    <label for="file-upload" id="file-drag">
+        <img id="file-image" src="#" alt="Preview" class="hidden">
+        <div id="start">
+        <i class="fa fa-download" aria-hidden="true"></i>
+        <div id="file-upload-title">Тут можете загрузить фотографию помещения, где планируется установить мебель.</div>
+        <div id="notimage" class="hidden">Пожалуйста выберите правильный файл!</div>
+        <span id="file-upload-btn" class="btn btn-primary">Выберите файл (.jpg, .jpeg, .png)</span>
+        </div>
+        <div id="response" class="hidden">
+        <div id="messages"></div>
+        <progress class="progress" id="file-progress" value="0">
+            <span>0</span>%
+        </progress>
+        </div>
+    </label>
+
+    <div id="options-wrapper">
+    <div class="options">
+        <h3>Тип генерации</h3>
+        <div class="row">
+            <span data-value="creative" class="option generation active">Креативный</span>
+            <span data-value="realistic" class="option generation">Реалистичный</span>
+        </div>
+    </div>
+    <div class="options">
+        <h3>Комната</h3>
+        <div class="row">
+            <span data-value="bedroom" class="option room">Спальня</span>
+            <span data-value="closet" class="option room">Гардеробная</span>
+            <span data-value="kitchen" class="option room active">Кухня</span>
+            <span data-value="living_room" class="option room">Гостиная</span>
+            <span data-value="hallway" class="option room">Прихожая</span>
+            <span data-value="bathroom" class="option room">Ванная комната</span>
+        </div>
+    </div>
+    <div class="options">
+        <h3>Стиль</h3>
+        <div class="row">
+            <span data-value="classic" class="option style">Классика</span>
+            <span data-value="neoclassic" class="option style">Неоклассика</span>
+            <span data-value="provence" class="option style">Прованс</span>
+            <span data-value="modern" class="option style">Современный</span>
+        </div>
+    </div>
+    <div class="options" id="facade_forms">
+        <h3>Форма кухни</h3>
+        <div class="row">
+            <span data-value="corner_kitchen" class="option facade_form">Угловая кухня</span>
+            <span data-value="U-shaped_kitchen" class="option facade_form">П-образная кухня</span>
+            <span data-value="open_kitchen" class="option facade_form">Прямая кухня</span>
+            <span data-value="kitchen-living_room" class="option facade_form">Кухня-Гостиная</span>
+        </div>
+    </div>
+    <div class="options">
+        <h3>Здесь можно указать цвет, текстуру кухни и стен:</h3>
+        <textarea id="extra"></textarea>
+    </div>
+    <button id="generate">Сгенерировать</button>
+</div>
+
+    </form>
+    <div id="modal">
+        <div id="close"></div>
+        <a download="generated.jpg" href="" id="download">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+            <path d="M21 21H3M18 11L12 17M12 17L6 11M12 17V3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+        <div id="loading">
+            <h2 id="loading-title">Пожалуйста, подождите. Мы генерируем Ваш дизайн.</h2>
+            <span id="animation-text"></span>
+            <h2 id="error-title">Что-то пошло не так, пожалуйста попробуйте сгенерировать заново.</h2>
+            <div class="spinner" id="spinner">
+                <h3><span class="visually-hidden">visuallyhidden</span></h3>
+            </div>
+            <img id="final-result" />
+            <!-- <button id="download-result">Скачать</button> -->
+        </div>
+    </div>
+
+    <script>
+        // File Upload
+// 
+function ekUpload(){
+  function Init() {
+
+    console.log("Upload Initialised");
+
+    var fileSelect    = document.getElementById('file-upload'),
+        fileDrag      = document.getElementById('file-drag'),
+        submitButton  = document.getElementById('submit-button');
+
+    fileSelect.addEventListener('change', fileSelectHandler, false);
+
+    // Is XHR2 available?
+    var xhr = new XMLHttpRequest();
+    if (xhr.upload) {
+      // File Drop
+      fileDrag.addEventListener('dragover', fileDragHover, false);
+      fileDrag.addEventListener('dragleave', fileDragHover, false);
+      fileDrag.addEventListener('drop', fileSelectHandler, false);
+    }
+  }
+
+  function fileDragHover(e) {
+    var fileDrag = document.getElementById('file-drag');
+
+    e.stopPropagation();
+    e.preventDefault();
+
+    fileDrag.className = (e.type === 'dragover' ? 'hover' : 'modal-body file-upload');
+  }
+
+  function fileSelectHandler(e) {
+    // Fetch FileList object
+    var files = e.target.files || e.dataTransfer.files;
+
+    // Cancel event and hover styling
+    fileDragHover(e);
+
+    // Process all File objects
+    for (var i = 0, f; f = files[i]; i++) {
+      parseFile(f);
+      uploadFile(f);
+    }
+  }
+
+  // Output
+  function output(msg) {
+    // Response
+    var m = document.getElementById('messages');
+    m.innerHTML = msg;
+  }
+
+  function parseFile(file) {
+
+    fileDrag.style.borderColor = "#eee";
+    fileUploadTitle.style.color = "#5f6982";
+
+    var imageName = file.name.replace(/\s/g, "_");
+
+    var isGood = (/\.(?=jpg|png|jpeg)/gi).test(imageName);
+    if (isGood) {
+      document.getElementById('start').classList.add("hidden");
+      document.getElementById('response').classList.remove("hidden");
+      document.getElementById('notimage').classList.add("hidden");
+      // Thumbnail Preview
+      document.getElementById('file-image').classList.remove("hidden");
+      document.getElementById('file-image').src = URL.createObjectURL(file);
+    }
+    else {
+      document.getElementById('file-image').classList.add("hidden");
+      document.getElementById('notimage').classList.remove("hidden");
+      document.getElementById('start').classList.remove("hidden");
+      document.getElementById('response').classList.add("hidden");
+      document.getElementById("file-upload-form").reset();
+    }
+  }
+
+  function setProgressMaxValue(e) {
+    var pBar = document.getElementById('file-progress');
+
+    if (e.lengthComputable) {
+      pBar.max = e.total;
+    }
+  }
+
+  function updateFileProgress(e) {
+    var pBar = document.getElementById('file-progress');
+
+    if (e.lengthComputable) {
+      pBar.value = e.loaded;
+    }
+  }
+
+  function uploadFile(file) {
+
+    var xhr = new XMLHttpRequest(),
+      fileInput = document.getElementById('class-roster-file'),
+      pBar = document.getElementById('file-progress'),
+      fileSizeLimit = 1024; // In MB
+    if (xhr.upload) {
+      // Check if file is less than x MB
+      if (file.size <= fileSizeLimit * 1024 * 1024) {
+        // Progress bar
+        pBar.style.display = 'inline';
+        xhr.upload.addEventListener('loadstart', setProgressMaxValue, false);
+        xhr.upload.addEventListener('progress', updateFileProgress, false);
+
+        // File received / failed
+        xhr.onreadystatechange = function(e) {
+          if (xhr.readyState == 4) {
+            // Everything is good!
+
+            // progress.className = (xhr.status == 200 ? "success" : "failure");
+            // document.location.reload(true);
+          }
+        };
+
+        // Start upload
+        xhr.open('POST', document.getElementById('file-upload-form').action, true);
+        xhr.setRequestHeader('X-File-Name', file.name);
+        xhr.setRequestHeader('X-File-Size', file.size);
+        xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+        xhr.send(file);
+      } else {
+        output('Please upload a smaller file (< ' + fileSizeLimit + ' MB).');
+      }
+    }
+  }
+
+  // Check for the various File API support.
+  if (window.File && window.FileList && window.FileReader) {
+    Init();
+  } else {
+    document.getElementById('file-drag').style.display = 'none';
+  }
+}
+ekUpload();
+
+const generations = document.getElementsByClassName("generation");
+const rooms = document.getElementsByClassName("room");
+const styles = document.getElementsByClassName("style");
+const furnitures = document.getElementsByClassName("facade_form");
+const furnituresWrapper = document.getElementById("facade_forms");
+const animationText = document.getElementById("animation-text");
+
+function makeid(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result + ".jpg";
+}
+
+const textsToAnimate = [
+    "Ваш дизайн-проект генерируется исккусственным интеллектом.",
+    "Это может занять до 60 секунд.",
+    "Скачайте понравившийся дизайн-проект, перешлите нам на WhatsApp (+7 962 477 57 27) и получите от нас 30% скидку в честь нашего 30-и летия!",
+];
+let textIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+let animationStopped = false;
+
+function animateText() {
+    const currentText = textsToAnimate[textIndex];
+    const textLength = currentText.length;
+    if (animationStopped) {
+        // Check if animation is stopped; if so, return immediately
+        return;
+    }
+
+    if (!isDeleting) {
+        const displayText = currentText.slice(0, charIndex + 1);
+        animationText.textContent = displayText;
+        charIndex++;
+
+        if (charIndex === textLength) {
+            isDeleting = true;
+            setTimeout(animateText, 2000); // Pause before deleting (milliseconds)
+        } else {
+            setTimeout(animateText, 100); // Typing speed (milliseconds)
+        }
+    } else {
+        const displayText = currentText.slice(0, charIndex - 1);
+        animationText.textContent = displayText;
+        charIndex--;
+
+        if (charIndex === 0) {
+            isDeleting = false;
+            textIndex = (textIndex + 1) % textsToAnimate.length;
+            setTimeout(animateText, 500); // Pause before next text (milliseconds)
+        } else {
+            setTimeout(animateText, 50); // Backspace speed (milliseconds)
+        }
+    }
+};
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+function removeActiveFromAll(elements) {
+    for (let el of elements) {
+        el.classList.remove('active')
+    }
+}
+
+    for (let el of generations) {
+        el.addEventListener("click", (e) => {
+            removeActiveFromAll(generations)
+            el.classList.add('active');
+        })
+    }
+
+    for (let el of rooms) {
+        el.addEventListener("click", (e) => {
+            removeActiveFromAll(rooms)
+            if (el.textContent == "Кухня") {
+                furnituresWrapper.style.display = "block";
+            } else {
+                furnituresWrapper.style.display = "none";
+            }
+            el.classList.add('active');
+        })
+    }
+
+    for (let el of styles) {
+        el.addEventListener("click", (e) => {
+            if (el.classList.contains("active")) {
+                el.classList.remove('active');
+            } else  {
+                removeActiveFromAll(styles)
+                el.classList.add('active');
+            }
+        })
+    }
+
+    for (let el of furnitures) {
+        el.addEventListener("click", (e) => {
+            if (el.classList.contains("active")) {
+                el.classList.remove('active');
+            } else  {
+                removeActiveFromAll(furnitures)
+                el.classList.add('active');
+            }
+        })
+    }
+
+    const textarea = document.getElementById("extra")
+    textarea.addEventListener("keydown", function(e) {
+        const inputText = textarea.value.trim();
+        const words = inputText.split(/\s+/); // Split by whitespace
+
+        console.log(e)
+        if (words.length > 2 && e.key == ' ' && e.key != "Backspace" && e.key != "ArrowLeft" && e.key != "ArrowRight") {
+            e.preventDefault();
+        }
+    });
+
+    const generate = document.getElementById("generate");
+    const fileUpload = document.getElementById("file-upload");
+    const fileDrag = document.getElementById("file-drag");
+    const fileUploadTitle = document.getElementById("file-upload-title");
+
+    generate.addEventListener("click", async (e) => {
+        animationStopped = false;
+        animateText();
+        e.preventDefault();
+        console.log("SUBMITING")
+        let generation = document.querySelector(".option.generation.active").dataset.value
+        let room = document.querySelector(".option.room.active").dataset.value
+        let style = document.querySelector(".option.style.active")?.dataset.value || ""
+        let facade_form = document.querySelector('.option.facade_form.active')?.dataset.value || ""
+
+        facade_form = room == "kitchen" ? facade_form: ""
+
+        const formData = new FormData();
+
+        if (document.getElementById("file-upload").files.length > 0) {
+            formData.append('image', fileUpload.files[0], makeid(getRandomInt(1, 10) + getRandomInt(1, 50)));
+        }
+        formData.append('generation_type', generation);
+        formData.append('room_type', room);
+        formData.append('style', style);
+        formData.append('facade_form', facade_form);
+        formData.append('hints', textarea.value);
+
+        const modal = document.getElementById("modal");
+        const spinner = document.getElementById("spinner");
+        const finalResult = document.getElementById("final-result");
+        const loading = document.getElementById("loading")
+        const loadingTitle = document.getElementById("loading-title");
+        const errorTitle = document.getElementById("error-title");
+        const close = document.getElementById("close");
+        const download = document.getElementById("download");
+
+        close.addEventListener("click", () => {
+            errorTitle.style.display = "none"
+            modal.style.display = "none";
+            loading.style.background = "white";
+            spinner.style.display = "block";
+            loadingTitle.style.display = "block";
+            finalResult.src = "";
+            download.style.display = "none";
+            close.style.display = "none";
+            download.href=""
+        })
+
+        errorTitle.style.display = "none"
+        loadingTitle.style.display = "block"
+
+        modal.style.display = "flex";
+        setTimeout(() => {
+            modal.style.opacity = "1";
+        }, 50);
+
+        try {
+            console.log("SEND")
+            const response = await fetch('https://interior-slon.ru/upload/', {
+                method: 'POST',
+                body: formData,
+            });
+            console.log("RECEIV");		    
+            console.log(response);		    
+
+            if (response.ok) {
+                animationStopped = true;
+                textIndex = 0;
+                charIndex = 0;
+                isDeleting = false;
+                animationText.textContent = "";
+                const responseData = await response.json();
+                loading.style.background = "transparent";
+                spinner.style.display = "none";
+                loadingTitle.style.display = "none";
+                finalResult.src = responseData['imageUrl'];
+                download.style.display = "flex";
+                close.style.display = "block";
+
+                const imgResponse = await fetch(responseData['imageUrl']);
+                const blob = await imgResponse.blob();
+                const url = window.URL.createObjectURL(blob);
+                download.href = url;
+                
+            } else {
+                animationStopped = true;
+                textIndex = 0;
+                charIndex = 0;
+                isDeleting = false;
+                animationText.textContent = "";
+                loading.style.background = "white";
+                spinner.style.display = "none";
+                loadingTitle.style.display = "none";
+                close.style.display = "block";
+                errorTitle.style.display = "block";
+                console.log("Request failed:", response.status);
+            }
+        } catch (error) {
+            animationStopped = true;
+            textIndex = 0;
+            charIndex = 0;
+            isDeleting = false;
+            loading.style.background = "white";
+            spinner.style.display = "none";
+            loadingTitle.style.display = "none";
+            close.style.display = "block";
+            errorTitle.style.display = "block";
+            console.log('Fetch error:', error);
+        }
+    })
+
+    </script>
